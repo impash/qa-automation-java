@@ -1,4 +1,4 @@
-package com.tinkoff.edu;
+package com.tinkoff.edu.printer;
 
 public class Printer {
     public static void print(String message) {

@@ -1,4 +1,6 @@
-import com.tinkoff.edu.Printer;
+package com.tinkoff.edu;
+
+import com.tinkoff.edu.printer.Printer;
 
 public class MyApplication {
     public static void main(String[] args) {
