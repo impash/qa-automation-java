@@ -1,5 +1,7 @@
 package com.tinkoff.edu.app.logger;
 
+import com.tinkoff.edu.app.request.LoanRequest;
+
 public class LoanCalcLogger {
     /**
      *our logs
@@ -10,5 +12,9 @@ public class LoanCalcLogger {
 
     public static void error(String message) {
         System.err.println(message);
+    }
+
+    public static void logObject(LoanRequest request) {
+        System.out.println(request);
     }
 }
