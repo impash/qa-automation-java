@@ -11,17 +11,21 @@ public class App {
      */
     public static void main(String[] args) {
         LoanRequest loanRequest = new LoanRequest(LoanType.IP, 10,1_000);
-        int requestId = LoanCalcController.createRequest(loanRequest);
-        int check = 1;
-        try {
-            if (requestId != check) {
-                throw new AssertionError("ERROR: requestId = " + requestId + " (не равно ожидаемому значению " + check + ")");
-            }
-        }
-        catch (Throwable e) {
-            LoanCalcLogger.error(e.getMessage());
-            throw e;
-        }
+        LoanCalcController loanCalcController = new LoanCalcController();
+
+        int requestId = loanCalcController.createRequest(loanRequest);
+        System.out.println(requestId);
+
+//        int check = 1;
+//        try {
+//            if (requestId != check) {
+//                throw new AssertionError("ERROR: requestId = " + requestId + " (не равно ожидаемому значению " + check + ")");
+//            }
+//        }
+//        catch (Throwable e) {
+//            LoanCalcLogger.error(e.getMessage());
+//            throw e;
+//        }
         LoanCalcLogger.info("INFO: Test succeeded");
         LoanCalcLogger.logObject(loanRequest);
     }
