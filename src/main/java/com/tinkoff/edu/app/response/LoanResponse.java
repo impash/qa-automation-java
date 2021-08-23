@@ -10,4 +10,20 @@ public class LoanResponse {
         this.type = type;
         this.requestId = requestId;
     }
+
+    public LoanResultType getType() {
+        return type;
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    @Override
+    public String toString() {
+        return "LoanResponse{" +
+                "type=" + type +
+                ", requestId=" + requestId +
+                '}';
+    }
 }

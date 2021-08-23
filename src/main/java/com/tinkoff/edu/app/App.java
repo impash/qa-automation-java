@@ -16,11 +16,11 @@ public class App {
     public static void main(String[] args) {
         LoanRequest loanRequest = new LoanRequest(LoanType.IP, 10,1_000);
         LoanCalcController loanCalcController = new LoanCalcController();
-        int requestId = loanCalcController.createRequest(loanRequest);
-//        LoanResponse response = new LoanResponse(LoanResultType.DENIED, requestId);
+        LoanResponse requestId = loanCalcController.createRequest(loanRequest);
+        LoanCalcLogger.logObject(requestId);
         int check = 1;
         try {
-            if (requestId != check) {
+            if (requestId.getRequestId() != check) {
                 throw new AssertionError("ERROR: requestId = " + requestId + " (не равно ожидаемому значению " + check + ")");
             }
         }
@@ -28,7 +28,6 @@ public class App {
             LoanCalcLogger.error(e.getMessage());
             throw e;
         }
-//        LoanCalcLogger.logObject(response);
         LoanCalcLogger.info("INFO: Test succeeded");
     }
 }
