@@ -4,5 +4,4 @@ import com.tinkoff.edu.app.request.LoanRequest;
 
 public interface LoanCalcRepository {
     int save(LoanRequest loanRequest);
-
 }

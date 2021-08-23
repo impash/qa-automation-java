@@ -4,17 +4,9 @@ import com.tinkoff.edu.app.dao.LoanCalcRepository;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 
-public class LoanCalcService {
-    /**
-     * A a = new B();
-     * a.m();
-     */
-    private LoanCalcRepository repo; //field DI
+public class LoanCalcService implements LoanServiceInterface {
+    LoanCalcRepository repo;
 
-    /**
-     * Constructor DI
-     * @param repo
-     */
     public LoanCalcService(LoanCalcRepository repo) {
         this.repo = repo;
     }
@@ -22,9 +14,10 @@ public class LoanCalcService {
     /**
      * TODO Loan calculation
      */
+
+    @Override
     public int createRequest(LoanRequest request) {
         LoanCalcLogger.info("INFO: LoanCalcService.createRequest done");
-
         return repo.save(request);
     }
 }

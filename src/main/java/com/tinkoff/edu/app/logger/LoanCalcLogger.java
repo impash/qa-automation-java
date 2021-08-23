@@ -1,6 +1,7 @@
 package com.tinkoff.edu.app.logger;
 
 import com.tinkoff.edu.app.request.LoanRequest;
+import com.tinkoff.edu.app.response.LoanResponse;
 
 public class LoanCalcLogger {
     /**
@@ -15,6 +16,9 @@ public class LoanCalcLogger {
     }
 
     public static void logObject(LoanRequest request) {
+        System.out.println(request);
+    }
+    public static void logObject(LoanResponse request) {
         System.out.println(request);
     }
 }
