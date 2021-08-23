@@ -11,7 +11,8 @@ public class StaticVariableLoanCalcRepository implements LoanCalcRepository{
      * @param request
      */
     public int save(LoanRequest request) {
-        LoanCalcLogger.info("INFO: LoanCalcRepository.requestId = " + ++requestId);
-        return ++requestId;
+        ++requestId;
+        LoanCalcLogger.info("INFO: LoanCalcRepository.requestId = " + requestId);
+        return requestId;
     }
 }

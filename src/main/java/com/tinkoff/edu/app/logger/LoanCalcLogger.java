@@ -18,7 +18,8 @@ public class LoanCalcLogger {
     public static void logObject(LoanRequest request) {
         System.out.println(request);
     }
-    public static void logObject(LoanResponse request) {
-        System.out.println(request);
+
+    public static void logObject(LoanResponse response) {
+        System.out.println(response);
     }
 }

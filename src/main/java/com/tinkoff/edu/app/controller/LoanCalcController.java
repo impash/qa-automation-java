@@ -21,7 +21,7 @@ public class LoanCalcController {
         //param validation
         //log request
         LoanCalcLogger.info("INFO: LoanCalcController.createRequest done");
-        LoanCalcLogger.info(request.toString());
+        LoanCalcLogger.logObject(request);
         return loanCalcService.createRequest(request);
     }
 }

@@ -17,19 +17,18 @@ public class App {
         LoanRequest loanRequest = new LoanRequest(LoanType.IP, 10,1_000);
         LoanCalcController loanCalcController = new LoanCalcController();
         int requestId = loanCalcController.createRequest(loanRequest);
-        LoanResponse response = new LoanResponse(LoanResultType.DENIED, requestId);
-//        int check = 2;
-//        try {
-//            if (requestId != check) {
-//                throw new AssertionError("ERROR: requestId = " + requestId + " (не равно ожидаемому значению " + check + ")");
-//            }
-//        }
-//        catch (Throwable e) {
-//            LoanCalcLogger.error(e.getMessage());
-//            throw e;
-//        }
-        LoanCalcLogger.logObject(response);
+//        LoanResponse response = new LoanResponse(LoanResultType.DENIED, requestId);
+        int check = 1;
+        try {
+            if (requestId != check) {
+                throw new AssertionError("ERROR: requestId = " + requestId + " (не равно ожидаемому значению " + check + ")");
+            }
+        }
+        catch (Throwable e) {
+            LoanCalcLogger.error(e.getMessage());
+            throw e;
+        }
+//        LoanCalcLogger.logObject(response);
         LoanCalcLogger.info("INFO: Test succeeded");
-
     }
 }
