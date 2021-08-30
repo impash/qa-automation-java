@@ -25,15 +25,15 @@ public class LoanCalcService implements LoanServiceInterface {
     public LoanResponse createRequest(LoanRequest request) {
         LoanCalcLogger.info("INFO: LoanCalcService.createRequest done");
         int responseId = repo.save(request);
-        if (request.getType() == LoanType.PERSON & request.getAmount() <= 10_000 & request.getMonths() <= 12)
+        if (request.getType().equals(LoanType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12)
             return new LoanResponse(LoanResultType.APPROVED, responseId);
         else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() > 12)
             return new LoanResponse(LoanResultType.DECLINED, responseId);
         else if (request.getType() == LoanType.OOO & request.getAmount() <= 10_000)
             return new LoanResponse(LoanResultType.DECLINED, responseId);
-        else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() < 12)
+        else if (request.getType() == LoanType.OOO & request.getAmount() > 10_000 & request.getMonths() < 12)
             return new LoanResponse(LoanResultType.APPROVED, responseId);
-        else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() >= 12)
+        else if (request.getType() == LoanType.OOO & request.getAmount() > 10_000 & request.getMonths() >= 12)
             return new LoanResponse(LoanResultType.DECLINED, responseId);
         else if (request.getType() == LoanType.IP)
             return new LoanResponse(LoanResultType.DECLINED, responseId);
