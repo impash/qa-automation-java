@@ -1,7 +1,7 @@
 package com.tinkoff.edu.app.controller;
 
 import com.tinkoff.edu.app.dao.LoanCalcRepository;
-import com.tinkoff.edu.app.dao.StaticVariableLoanCalcRepository;
+import com.tinkoff.edu.app.dao.VariableLoanCalcRepository;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
@@ -12,8 +12,12 @@ import com.tinkoff.edu.app.service.LoanServiceInterface;
  * Controller
  */
 public class LoanCalcController {
-    LoanCalcRepository loanCalcRepository = new StaticVariableLoanCalcRepository();
+    LoanCalcRepository loanCalcRepository = new VariableLoanCalcRepository();
     LoanServiceInterface loanCalcService = new IpNotFriendlyService(loanCalcRepository);
+
+    public LoanCalcController(LoanCalcRepository loanCalcRepository) {
+        this.loanCalcRepository = loanCalcRepository;
+    }
 
     /**
      * Validates and logs request

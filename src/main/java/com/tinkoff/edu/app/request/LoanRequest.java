@@ -24,6 +24,10 @@ public class LoanRequest {
         return amount;
     }
 
+    public LoanType getType() {
+        return type;
+    }
+
     public String toString(){
         return "RQ: {"
                 + this.type + ", "
