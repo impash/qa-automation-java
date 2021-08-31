@@ -7,10 +7,11 @@ import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
 
-import java.util.Random;
+import java.util.UUID;
 
 public class LoanCalcService implements LoanServiceInterface {
     LoanCalcRepository repo;
+    String uuid = UUID.randomUUID().toString();
 
     public LoanCalcService(LoanCalcRepository repo) {
         this.repo = repo;
@@ -26,17 +27,18 @@ public class LoanCalcService implements LoanServiceInterface {
         LoanCalcLogger.info("INFO: LoanCalcService.createRequest done");
         int responseId = repo.save(request);
         if (request.getType() == LoanType.PERSON & request.getAmount() <= 10_000 & request.getMonths() <= 12)
-            return new LoanResponse(LoanResultType.APPROVED, responseId);
+            return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
         else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() > 12)
-            return new LoanResponse(LoanResultType.DECLINED, responseId);
+            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
         else if (request.getType() == LoanType.OOO & request.getAmount() <= 10_000)
-            return new LoanResponse(LoanResultType.DECLINED, responseId);
+            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
         else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() < 12)
-            return new LoanResponse(LoanResultType.APPROVED, responseId);
+            return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
         else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() >= 12)
-            return new LoanResponse(LoanResultType.DECLINED, responseId);
+            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
         else if (request.getType() == LoanType.IP)
-            return new LoanResponse(LoanResultType.DECLINED, responseId);
-        return new LoanResponse(LoanResultType.DECLINED, -1);
+            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
+        return new LoanResponse(LoanResultType.DECLINED, -1, uuid);
+
     }
 }
