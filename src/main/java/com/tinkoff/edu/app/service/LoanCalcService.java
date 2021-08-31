@@ -19,6 +19,7 @@ public class LoanCalcService implements LoanServiceInterface {
 
     /**
      * TODO Loan calculation
+     *
      * @return
      */
 
@@ -26,19 +27,35 @@ public class LoanCalcService implements LoanServiceInterface {
     public LoanResponse createRequest(LoanRequest request) {
         LoanCalcLogger.info("INFO: LoanCalcService.createRequest done");
         int responseId = repo.save(request);
-        if (request.getType() == LoanType.PERSON & request.getAmount() <= 10_000 & request.getMonths() <= 12)
+        boolean startCondition = (request != null && request.getAmount() >= 1 && request.getMonths() >=1);
+        if (startCondition && request.getType().equals(LoanType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12)
             return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
-        else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() > 12)
+        else if (startCondition && request.getType().equals(LoanType.PERSON) & request.getAmount() > 10_000 & request.getMonths() > 12)
             return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-        else if (request.getType() == LoanType.OOO & request.getAmount() <= 10_000)
+        else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() <= 10_000)
             return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-        else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() < 12)
+        else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() < 12)
             return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
-        else if (request.getType() == LoanType.PERSON & request.getAmount() > 10_000 & request.getMonths() >= 12)
+        else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() >= 12)
             return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-        else if (request.getType() == LoanType.IP)
+        else if (startCondition && request.getType().equals(LoanType.IP))
             return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-        return new LoanResponse(LoanResultType.DECLINED, -1, uuid);
+        return new LoanResponse(LoanResultType.DECLINED, -1, "-1");
 
+//        switch () {
+//            case (request.getType().equals(LoanType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12):
+//            case (request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() < 12):
+//                return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
+//            break;
+//            case (request.getType().equals(LoanType.PERSON) & request.getAmount() > 10_000 & request.getMonths() > 12):
+//            case (request.getType().equals(LoanType.OOO) & request.getAmount() <= 10_000):
+//            case (request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() >= 12):
+//            case (request.getType().equals(LoanType.IP)):
+//                return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
+//            break;
+//            default:
+//                return new LoanResponse(LoanResultType.DECLINED, -1, "-1");
+//            break;
+//        }
     }
 }
