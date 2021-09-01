@@ -7,10 +7,11 @@ import java.util.UUID;
 
 public class ArrayLoanCalcRepository implements LoanCalcRepository{
     private int requestId;
+    int number;
     private LoanRequest[] loanRequests;
 
     public int save(LoanRequest request) {
-        this.loanRequests[requestId] = request;
+        this.loanRequests[requestId+1] = request; //TODO fix id
         ++requestId;
         LoanCalcLogger.info("INFO: LoanCalcRepository.requestId = " + requestId);
         return this.requestId;
@@ -28,9 +29,14 @@ public class ArrayLoanCalcRepository implements LoanCalcRepository{
         return requestId;
     }
 
-    public LoanRequest[] getLoanRequests() {
-        return loanRequests;
+    public LoanRequest getLoanRequests(String uuid) {
+        for (int i = 0; i < loanRequests.length; i++) {
+                if (loanRequests[i].getUuid().equals(uuid)){
+                   number = i;
+                   break;
+                }
+        }
+        return loanRequests[number];
     }
-
 
 }
