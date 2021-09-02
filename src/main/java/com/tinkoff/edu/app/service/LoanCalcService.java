@@ -1,6 +1,7 @@
 package com.tinkoff.edu.app.service;
 
 import com.tinkoff.edu.app.dao.LoanCalcRepository;
+import com.tinkoff.edu.app.dao.LoanRequestRecord;
 import com.tinkoff.edu.app.enums.LoanResultType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
@@ -11,7 +12,8 @@ import java.util.UUID;
 
 public class LoanCalcService implements LoanServiceInterface {
     LoanCalcRepository repo;
-    String uuid = UUID.randomUUID().toString();
+    UUID uuid = UUID.randomUUID();
+    LoanRequestRecord loanRequestRecord = repo.getRecordByUuid(uuid);
 
     public LoanCalcService(LoanCalcRepository repo) {
         this.repo = repo;
@@ -26,36 +28,43 @@ public class LoanCalcService implements LoanServiceInterface {
     @Override
     public LoanResponse createRequest(LoanRequest request) {
         LoanCalcLogger.info("INFO: LoanCalcService.createRequest done");
-        int responseId = repo.save(request);
+
+        LoanResponse loanResponse;
+
+        repo.save(request, loanRequestRecord.getStatus());
         boolean startCondition = (request != null && request.getAmount() >= 1 && request.getMonths() >=1);
         if (startCondition && request.getType().equals(LoanType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12)
-            return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
+            return new LoanResponse(LoanResultType.APPROVED, uuid);
         else if (startCondition && request.getType().equals(LoanType.PERSON) & request.getAmount() > 10_000 & request.getMonths() > 12)
-            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
+            return new LoanResponse(LoanResultType.DECLINED, uuid);
         else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() <= 10_000)
-            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
+            return new LoanResponse(LoanResultType.DECLINED, uuid);
         else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() < 12)
-            return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
+            return new LoanResponse(LoanResultType.APPROVED, uuid);
         else if (startCondition && request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() >= 12)
-            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
+            return new LoanResponse(LoanResultType.DECLINED, uuid);
         else if (startCondition && request.getType().equals(LoanType.IP))
-            return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-        return new LoanResponse(LoanResultType.DECLINED, -1, "-1");
+            return new LoanResponse(LoanResultType.DECLINED, uuid);
+        return new LoanResponse(LoanResultType.DECLINED, null);
 
-//        switch () {
-//            case (request.getType().equals(LoanType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12):
-//            case (request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() < 12):
-//                return new LoanResponse(LoanResultType.APPROVED, responseId, uuid);
-//            break;
-//            case (request.getType().equals(LoanType.PERSON) & request.getAmount() > 10_000 & request.getMonths() > 12):
-//            case (request.getType().equals(LoanType.OOO) & request.getAmount() <= 10_000):
-//            case (request.getType().equals(LoanType.OOO) & request.getAmount() > 10_000 & request.getMonths() >= 12):
-//            case (request.getType().equals(LoanType.IP)):
-//                return new LoanResponse(LoanResultType.DECLINED, responseId, uuid);
-//            break;
-//            default:
-//                return new LoanResponse(LoanResultType.DECLINED, -1, "-1");
-//            break;
+        //TODO
+//        LoanType type;
+//        switch (type){
+//            case IP: return LoanResultType.DECLINED; break;
+//            default: switch (type){
+//            case OOO: return
+//            }
 //        }
     }
+
+    LoanRequestRecord getStatus(UUID uuid) {
+        return repo.getRecordByUuid(uuid);
+    }
+
+    //TODO
+//    changeStatus(UUID uuid, LoanResultType status) {
+//
+//        this.loanRequestRecord.setStatus(status);
+//    }
+
 }

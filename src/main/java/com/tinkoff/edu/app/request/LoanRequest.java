@@ -12,15 +12,12 @@ public class LoanRequest {
     private final int months; //stateful + immutable
     private final int amount;
 
-    private final String uuid;
-
     private final String fio;
-    public LoanRequest(LoanType type, int months, int amount, String fio, String uuid) {
+    public LoanRequest(LoanType type, int months, int amount, String fio) {
         this.type = type;
         this.months = months;
         this.amount = amount;
         this.fio = fio;
-        this.uuid = uuid;
     }
 
     public int getMonths() {
@@ -37,10 +34,6 @@ public class LoanRequest {
 
     public String getFio() {
         return fio;
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 
     public String toString(){
