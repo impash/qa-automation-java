@@ -1,7 +1,7 @@
 package com.tinkoff.edu.app.dao;
 
-import com.tinkoff.edu.app.enums.LoanResultType;
-import com.tinkoff.edu.app.enums.LoanType;
+import com.tinkoff.edu.app.enums.LoanResultStatus;
+import com.tinkoff.edu.app.enums.LoanUserType;
 
 import java.util.UUID;
 
@@ -10,7 +10,8 @@ public class LoanRequestRecord {
     private int months;
     private UUID uuid;
     private String fio;
-    private LoanResultType status;
+    private LoanResultStatus status;
+    private LoanUserType loanUserType;
 
     public int getAmount() {
         return amount;
@@ -44,22 +45,20 @@ public class LoanRequestRecord {
         this.fio = fio;
     }
 
-    public LoanResultType getStatus() {
+    public LoanResultStatus getStatus() {
         return status;
     }
 
-    public void setStatus(LoanResultType status) {
+    public void setStatus(LoanResultStatus status) {
         this.status = status;
     }
 
-    public LoanType getLoanType() {
-        return loanType;
+    public LoanUserType getLoanType() {
+        return loanUserType;
     }
 
-    public void setLoanType(LoanType loanType) {
-        this.loanType = loanType;
+    public void setLoanType(LoanUserType loanUserType) {
+        this.loanUserType = loanUserType;
     }
-
-    private LoanType loanType;
 
 }

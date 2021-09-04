@@ -1,19 +1,17 @@
 package com.tinkoff.edu.app.request;
 
-import com.tinkoff.edu.app.enums.LoanType;
-
-import java.util.UUID;
+import com.tinkoff.edu.app.enums.LoanUserType;
 
 /**
  * Class, Type -> objects, instances
  */
 public class LoanRequest {
-    private final LoanType type;
+    private final LoanUserType type;
     private final int months; //stateful + immutable
     private final int amount;
 
     private final String fio;
-    public LoanRequest(LoanType type, int months, int amount, String fio) {
+    public LoanRequest(LoanUserType type, int months, int amount, String fio) {
         this.type = type;
         this.months = months;
         this.amount = amount;
@@ -28,7 +26,7 @@ public class LoanRequest {
         return amount;
     }
 
-    public LoanType getType() {
+    public LoanUserType getType() {
         return type;
     }
 
@@ -40,7 +38,7 @@ public class LoanRequest {
         return "RQ: {"
                 + this.type + ", "
                 + this.getAmount() + " for "
-                + this.getMonths() + " months from "
+                + this.getMonths() + " months by "
                 + this.getFio() +
                 "}";
     }

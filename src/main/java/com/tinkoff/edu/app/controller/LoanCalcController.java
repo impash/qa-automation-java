@@ -1,9 +1,8 @@
 package com.tinkoff.edu.app.controller;
 
-import com.tinkoff.edu.app.dao.LoanCalcRepository;
 import com.tinkoff.edu.app.dao.LoanRepositoryImpl;
 import com.tinkoff.edu.app.dao.LoanRequestRecord;
-import com.tinkoff.edu.app.enums.LoanResultType;
+import com.tinkoff.edu.app.enums.LoanResultStatus;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
@@ -19,28 +18,28 @@ public class LoanCalcController {
     LoanRepositoryImpl repo = new LoanRepositoryImpl();
     LoanServiceInterface loanCalcService = new LoanCalcService(repo);
 
-
-    public LoanCalcController() {
-        this.repo = null;
-    }
-
     /**
      * Validates and logs request
+     *
      * @return
      */
     public LoanResponse createRequest(LoanRequest request) { //formal
         //param validation
+        if ((request.getFio().length() < 10) || (request.getFio().length() > 100)) {
+            throw new IllegalArgumentException("ФИО должно содержать не менее 10 и не более 100 символов!");
+        }
         //log request
-        LoanCalcLogger.info("INFO: LoanCalcController.createRequest done");
         LoanCalcLogger.logObject(request);
         return loanCalcService.createRequest(request);
     }
-    public LoanRequestRecord getStatus(UUID uuid){
-       return repo.getRecordByUuid(uuid);
+
+    public LoanRequestRecord getStatus(UUID uuid) {
+        System.out.println("\n_ВЫПОЛНЕН ЗАПРОС по UUID: " + uuid + "\n");
+        return loanCalcService.getStatus(uuid);
     }
 
-    //TODO
-//    public changeStatus(UUID uuid, LoanResultType loanResultType){
-//        loanCalcService.(loanResultType);
-//    }
+    public void changeStatus(UUID uuid, LoanResultStatus status){
+        loanCalcService.changeStatus(uuid, status);
+    }
+
 }
