@@ -59,8 +59,8 @@ public class LoanCalcService implements LoanServiceInterface {
     public LoanRequestRecord getStatus(UUID uuid) {
         try {
             return repo.getRecordByUuid(uuid);
-        } catch (IllegalArgumentException e){
-            System.out.println("Вот такая вот хуйня, Андрюха..." + e);
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Кажется, что-то пошло не по плану ... " + e);
         }
         return null;
     }
