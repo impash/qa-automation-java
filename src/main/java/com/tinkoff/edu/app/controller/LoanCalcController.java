@@ -19,8 +19,7 @@ public class LoanCalcController {
     LoanServiceInterface loanCalcService = new LoanCalcService(repo);
 
     /**
-     * Validates and logs request
-     *
+     * createRequest
      * @return
      */
     public LoanResponse createRequest(LoanRequest request) { //formal
@@ -33,11 +32,21 @@ public class LoanCalcController {
         return loanCalcService.createRequest(request);
     }
 
+    /**
+     * getStatus
+     * @param uuid
+     * @return
+     */
     public LoanRequestRecord getStatus(UUID uuid) {
         System.out.println("\n_ВЫПОЛНЕН ЗАПРОС по UUID: " + uuid + "\n");
         return loanCalcService.getStatus(uuid);
     }
 
+    /**
+     * changeStatus
+     * @param uuid
+     * @param status
+     */
     public void changeStatus(UUID uuid, LoanResultStatus status){
         loanCalcService.changeStatus(uuid, status);
     }
