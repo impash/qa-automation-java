@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface LoanServiceInterface {
     LoanResponse createRequest(LoanRequest request);
-    LoanRequestRecord getStatus(UUID uuid);
+    LoanResultStatus getStatus(UUID uuid);
     void changeStatus(UUID uuid, LoanResultStatus status);
 }

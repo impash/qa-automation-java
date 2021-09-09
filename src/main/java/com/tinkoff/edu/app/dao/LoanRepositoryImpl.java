@@ -10,36 +10,31 @@ public class LoanRepositoryImpl implements LoanCalcRepository {
     final private LoanRequestRecord[] loanRequestRecords = new LoanRequestRecord[100];
 
     @Override
-    public void save(LoanRequest loanRequest, LoanResultStatus status, UUID uuid) {
+    public LoanRequestRecord save(LoanRequest loanRequest, LoanResultStatus status) {
         loanRequestRecords[count] = new LoanRequestRecord();
         loanRequestRecords[count].setLoanType(loanRequest.getType());
         loanRequestRecords[count].setFio(loanRequest.getFio());
         loanRequestRecords[count].setAmount(loanRequest.getAmount());
         loanRequestRecords[count].setMonths(loanRequest.getMonths());
-        loanRequestRecords[count].setUuid(uuid);
+        loanRequestRecords[count].setUuid(UUID.randomUUID());
         loanRequestRecords[count].setStatus(status);
         count++;
+        return loanRequestRecords[count-1];
     }
 
     @Override
     public LoanRequestRecord getRecordByUuid(UUID uuid) {
-        int number = -1;
-        for (int i = 0; i < loanRequestRecords.length; i++) {
-            if ((loanRequestRecords[i] != null) && (loanRequestRecords[i].getUuid() == uuid)) {
-                number = i;
-                break;
+        for (LoanRequestRecord loanRequestRecord : loanRequestRecords) {
+            if ((loanRequestRecord != null) && (loanRequestRecord.getUuid().equals(uuid))) {
+                return loanRequestRecord;
             }
         }
-        return loanRequestRecords[number];
+        throw new IllegalStateException("- Записей с переданным id не найдено");
     }
 
     @Override
     public void changeStatus(UUID uuid, LoanResultStatus status) {
-        for (LoanRequestRecord loanRequestRecord : loanRequestRecords) {
-            if ((loanRequestRecord != null) && (loanRequestRecord.getUuid() == uuid)) {
-                loanRequestRecord.setStatus(status);
-            }
-        }
+        getRecordByUuid(uuid).setStatus(status);
     }
 }
 

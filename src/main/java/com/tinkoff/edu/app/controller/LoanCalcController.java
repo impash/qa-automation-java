@@ -15,19 +15,13 @@ import java.util.UUID;
  * Controller
  */
 public class LoanCalcController {
-    LoanRepositoryImpl repo = new LoanRepositoryImpl();
-    LoanServiceInterface loanCalcService = new LoanCalcService(repo);
+    LoanServiceInterface loanCalcService = new LoanCalcService(new LoanRepositoryImpl());
 
     /**
      * createRequest
      * @return
      */
-    public LoanResponse createRequest(LoanRequest request) { //formal
-        //param validation
-        if ((request.getFio().length() < 10) || (request.getFio().length() > 100)) {
-            throw new IllegalArgumentException("ФИО должно содержать не менее 10 и не более 100 символов!");
-        }
-        //log request
+    public LoanResponse createRequest(LoanRequest request) {
         LoanCalcLogger.logObject(request);
         return loanCalcService.createRequest(request);
     }
@@ -37,8 +31,7 @@ public class LoanCalcController {
      * @param uuid
      * @return
      */
-    public LoanRequestRecord getStatus(UUID uuid) {
-        System.out.println("\n_ВЫПОЛНЕН ЗАПРОС по UUID: " + uuid + "\n");
+    public LoanResultStatus getStatus(UUID uuid) {
         return loanCalcService.getStatus(uuid);
     }
 
