@@ -31,7 +31,7 @@ public class LoanCalcController {
      * @param uuid
      * @return
      */
-    public LoanRequestRecord getStatus(UUID uuid) {
+    public LoanResultStatus getStatus(UUID uuid) {
         return loanCalcService.getStatus(uuid);
     }
 

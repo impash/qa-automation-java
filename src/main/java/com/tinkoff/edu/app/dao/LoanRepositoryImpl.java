@@ -29,16 +29,12 @@ public class LoanRepositoryImpl implements LoanCalcRepository {
                 return loanRequestRecord;
             }
         }
-        throw new IllegalStateException("Записей с переданным id не найдено");
+        throw new IllegalStateException("- Записей с переданным id не найдено");
     }
 
     @Override
     public void changeStatus(UUID uuid, LoanResultStatus status) {
-        for (LoanRequestRecord loanRequestRecord : loanRequestRecords) {
-            if ((loanRequestRecord != null) && (loanRequestRecord.getUuid() == uuid)) {
-                loanRequestRecord.setStatus(status);
-            }
-        }
+        getRecordByUuid(uuid).setStatus(status);
     }
 }
 
