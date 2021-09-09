@@ -6,7 +6,7 @@ import com.tinkoff.edu.app.request.LoanRequest;
 import java.util.UUID;
 
 public interface LoanCalcRepository {
-    void save(LoanRequest loanRequest, LoanResultStatus status, UUID uuid);
+    LoanRequestRecord save(LoanRequest loanRequest, LoanResultStatus status);
     LoanRequestRecord getRecordByUuid(UUID uuid);
     void changeStatus(UUID uuid, LoanResultStatus status);
 }

@@ -4,6 +4,7 @@ import com.tinkoff.edu.app.dao.LoanCalcRepository;
 import com.tinkoff.edu.app.dao.LoanRequestRecord;
 import com.tinkoff.edu.app.enums.LoanResultStatus;
 import com.tinkoff.edu.app.enums.LoanUserType;
+import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
 
@@ -21,34 +22,25 @@ public class LoanCalcService implements LoanServiceInterface {
      * @param request
      * @return Выполняем новый запрос на кредит
      */
+
     @Override
     public LoanResponse createRequest(LoanRequest request) {
-        UUID uuid = UUID.randomUUID();
-        if (request.getType().equals(LoanUserType.PERSON) & request.getAmount() <= 10_000 & request.getMonths() <= 12) {
-            repo.save(request, LoanResultStatus.APPROVED, uuid);
-            return new LoanResponse(LoanResultStatus.APPROVED, uuid);
+        if ((request.getFio().length() < 10) || (request.getFio().length() > 100)) {
+            throw new IllegalArgumentException("ФИО должно содержать не менее 10 и не более 100 символов!");
         }
-        else if (request.getType().equals(LoanUserType.PERSON) & request.getAmount() > 10_000 & request.getMonths() > 12) {
-            repo.save(request, LoanResultStatus.DECLINED, uuid);
-            return new LoanResponse(LoanResultStatus.DECLINED, uuid);
+        LoanResultStatus calcStatus = LoanResultStatus.DECLINED;
+        if(request.getType() == LoanUserType.PERSON){
+            if(request.getAmount() <= 10_000 & request.getMonths() <= 12){
+                calcStatus = LoanResultStatus.APPROVED;
+            }
         }
-        else if (request.getType().equals(LoanUserType.OOO) & request.getAmount() <= 10_000) {
-            repo.save(request, LoanResultStatus.DECLINED, uuid);
-            return new LoanResponse(LoanResultStatus.DECLINED, uuid);
+        else if(request.getType() == LoanUserType.OOO){
+            if(request.getAmount() > 10_000 & request.getMonths() < 12){
+                calcStatus = LoanResultStatus.APPROVED;
+            }
         }
-        else if (request.getType().equals(LoanUserType.OOO) & request.getAmount() > 10_000 & request.getMonths() < 12) {
-            repo.save(request, LoanResultStatus.APPROVED, uuid);
-            return new LoanResponse(LoanResultStatus.APPROVED, uuid);
-        }
-        else if (request.getType().equals(LoanUserType.OOO) & request.getAmount() > 10_000 & request.getMonths() >= 12) {
-            repo.save(request, LoanResultStatus.DECLINED, uuid);
-            return new LoanResponse(LoanResultStatus.DECLINED, uuid);
-        }
-        else if (request.getType().equals(LoanUserType.IP)) {
-            repo.save(request, LoanResultStatus.DECLINED, uuid);
-            return new LoanResponse(LoanResultStatus.DECLINED, uuid);
-        }
-        throw new IllegalArgumentException("-1");
+        var newRecord = repo.save(request,calcStatus);
+        return new LoanResponse(calcStatus, newRecord.getUuid());
     }
 
     /**
@@ -58,11 +50,14 @@ public class LoanCalcService implements LoanServiceInterface {
      */
     public LoanRequestRecord getStatus(UUID uuid) {
         try {
-            return repo.getRecordByUuid(uuid);
-        } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Кажется, что-то пошло не по плану ... " + e);
+            LoanCalcLogger.info("Выполняется запрос с по UUID: " + uuid);
+            var record = repo.getRecordByUuid(uuid);
+            LoanCalcLogger.info("\nЗапрос выполнен");
+            return record;
+        } catch (Exception e){
+            LoanCalcLogger.error("Кажется, что-то пошло не по плану ... " + e);
+            throw e;
         }
-        return null;
     }
 
     /**
