@@ -1,29 +1,32 @@
 package com.tinkoff.edu.app.response;
 
-import com.tinkoff.edu.app.enums.LoanResultType;
+import com.tinkoff.edu.app.enums.LoanResultStatus;
+
+import java.util.UUID;
 
 public class LoanResponse {
-    final LoanResultType type;
-    final int requestId;
+    final LoanResultStatus status;
 
-    public LoanResponse(LoanResultType type, int requestId){
-        this.type = type;
-        this.requestId = requestId;
+    final UUID uuid;
+
+    public LoanResponse(LoanResultStatus status, UUID uuid){
+        this.status = status;
+        this.uuid = uuid;
     }
 
-    public LoanResultType getType() {
-        return type;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public int getRequestId() {
-        return requestId;
+    public LoanResultStatus getStatus() {
+        return status;
     }
 
     @Override
     public String toString() {
         return "LoanResponse{" +
-                "type=" + type +
-                ", requestId=" + requestId +
-                '}';
+                "type=" + status +
+                ", uuid=" + uuid +
+                "}";
     }
 }

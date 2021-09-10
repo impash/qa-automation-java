@@ -1,29 +1,47 @@
 package com.tinkoff.edu.app.controller;
 
-import com.tinkoff.edu.app.dao.LoanCalcRepository;
-import com.tinkoff.edu.app.dao.StaticVariableLoanCalcRepository;
+import com.tinkoff.edu.app.dao.LoanRepositoryImpl;
+import com.tinkoff.edu.app.dao.LoanRequestRecord;
+import com.tinkoff.edu.app.enums.LoanResultStatus;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
-import com.tinkoff.edu.app.service.IpNotFriendlyService;
+import com.tinkoff.edu.app.service.LoanCalcService;
 import com.tinkoff.edu.app.service.LoanServiceInterface;
+
+import java.util.UUID;
 
 /**
  * Controller
  */
 public class LoanCalcController {
-    LoanCalcRepository loanCalcRepository = new StaticVariableLoanCalcRepository();
-    LoanServiceInterface loanCalcService = new IpNotFriendlyService(loanCalcRepository);
+    LoanServiceInterface loanCalcService = new LoanCalcService(new LoanRepositoryImpl());
 
     /**
-     * Validates and logs request
+     * createRequest
      * @return
      */
-    public LoanResponse createRequest(LoanRequest request) { //formal
-        //param validation
-        //log request
-        LoanCalcLogger.info("INFO: LoanCalcController.createRequest done");
+    public LoanResponse createRequest(LoanRequest request) {
         LoanCalcLogger.logObject(request);
         return loanCalcService.createRequest(request);
     }
+
+    /**
+     * getStatus
+     * @param uuid
+     * @return
+     */
+    public LoanResultStatus getStatus(UUID uuid) {
+        return loanCalcService.getStatus(uuid);
+    }
+
+    /**
+     * changeStatus
+     * @param uuid
+     * @param status
+     */
+    public void changeStatus(UUID uuid, LoanResultStatus status){
+        loanCalcService.changeStatus(uuid, status);
+    }
+
 }

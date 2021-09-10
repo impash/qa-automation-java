@@ -1,7 +1,12 @@
 package com.tinkoff.edu.app.dao;
 
+import com.tinkoff.edu.app.enums.LoanResultStatus;
 import com.tinkoff.edu.app.request.LoanRequest;
 
+import java.util.UUID;
+
 public interface LoanCalcRepository {
-    int save(LoanRequest loanRequest);
+    LoanRequestRecord save(LoanRequest loanRequest, LoanResultStatus status);
+    LoanRequestRecord getRecordByUuid(UUID uuid);
+    void changeStatus(UUID uuid, LoanResultStatus status);
 }
