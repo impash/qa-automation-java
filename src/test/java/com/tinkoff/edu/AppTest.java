@@ -38,6 +38,9 @@ public class AppTest {
         uuids[3] = request.getUuid();
     }
 
+    //TODO
+    // сделать параметризированные тесты с покрытием оставшихся кейсов OOO, IP, PERSON
+
     @Test
     @DisplayName("OOO, status == APPROVED")
     public void getPositiveStatusOOOByUUID() {
