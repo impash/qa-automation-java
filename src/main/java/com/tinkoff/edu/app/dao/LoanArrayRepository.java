@@ -5,7 +5,7 @@ import com.tinkoff.edu.app.request.LoanRequest;
 
 import java.util.UUID;
 
-public class LoanRepositoryImpl implements LoanCalcRepository {
+public class LoanArrayRepository implements LoanRepositoryInterface {
     private int count = 0;
     final private LoanRequestRecord[] loanRequestRecords = new LoanRequestRecord[100];
 

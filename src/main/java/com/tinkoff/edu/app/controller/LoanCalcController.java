@@ -1,8 +1,8 @@
 package com.tinkoff.edu.app.controller;
 
-import com.tinkoff.edu.app.dao.LoanRepositoryImpl;
-import com.tinkoff.edu.app.dao.LoanRequestRecord;
+import com.tinkoff.edu.app.dao.LoanMapRepository;
 import com.tinkoff.edu.app.enums.LoanResultStatus;
+import com.tinkoff.edu.app.enums.LoanUserType;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
 import com.tinkoff.edu.app.request.LoanRequest;
 import com.tinkoff.edu.app.response.LoanResponse;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * Controller
  */
 public class LoanCalcController {
-    LoanServiceInterface loanCalcService = new LoanCalcService(new LoanRepositoryImpl());
+    LoanServiceInterface loanCalcService = new LoanCalcService(new LoanMapRepository());
 
     /**
      * createRequest
@@ -42,6 +42,10 @@ public class LoanCalcController {
      */
     public void changeStatus(UUID uuid, LoanResultStatus status){
         loanCalcService.changeStatus(uuid, status);
+    }
+
+    public LoanResultStatus getAllByType(LoanUserType type) {
+        return loanCalcService.getAllByType(type);
     }
 
 }
