@@ -1,6 +1,6 @@
 package com.tinkoff.edu.app.service;
 
-import com.tinkoff.edu.app.dao.LoanCalcRepository;
+import com.tinkoff.edu.app.dao.LoanRepositoryInterface;
 import com.tinkoff.edu.app.enums.LoanResultStatus;
 import com.tinkoff.edu.app.enums.LoanUserType;
 import com.tinkoff.edu.app.logger.LoanCalcLogger;
@@ -10,9 +10,9 @@ import com.tinkoff.edu.app.response.LoanResponse;
 import java.util.UUID;
 
 public class LoanCalcService implements LoanServiceInterface {
-    LoanCalcRepository repo;
+    LoanRepositoryInterface repo;
 
-    public LoanCalcService(LoanCalcRepository repo) {
+    public LoanCalcService(LoanRepositoryInterface repo) {
         this.repo = repo;
     }
 
@@ -37,8 +37,12 @@ public class LoanCalcService implements LoanServiceInterface {
             } break;
             case IP: break;
         }
+        try{
         var newRecord = repo.save(request,calcStatus);
-        return new LoanResponse(calcStatus, newRecord.getUuid());
+        return new LoanResponse(calcStatus, newRecord.getUuid());}
+        catch (Exception e){
+            throw e;
+        }
     }
 
     /**
@@ -64,5 +68,10 @@ public class LoanCalcService implements LoanServiceInterface {
      */
     public void changeStatus(UUID uuid, LoanResultStatus status) {
         repo.changeStatus(uuid, status);
+    }
+
+    @Override
+    public LoanResultStatus getAllByType(LoanUserType type) {
+        return null;
     }
 }
